@@ -34,6 +34,35 @@ public class Card : MonoBehaviour
         yield return StartCoroutine(AlignPhase(slot, alignDuration));
     }
 
+    public void MoveToDiscardSlot(Vector3 slotPosition, float duration = 0.35f)
+    {
+        StopAllCoroutines();
+        StartCoroutine(DiscardTransition(slotPosition, duration));
+    }
+
+    private IEnumerator DiscardTransition(Vector3 slotPosition, float duration)
+    {
+        Vector3 startPos = transform.position;
+        Quaternion startRot = transform.rotation;
+        float startX = transform.eulerAngles.x;
+        Quaternion targetRot = Quaternion.Euler(startX, 90f, 0f);
+
+        float time = 0f;
+        while (time < duration)
+        {
+            float t = time / duration;
+            t = t * t * (3f - 2f * t);
+
+            transform.position = Vector3.Lerp(startPos, slotPosition, t);
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.SetPositionAndRotation(slotPosition, targetRot);
+    }
+
     private IEnumerator JumpPhase(Vector3 target, float duration)
     {
         Vector3 start = transform.position;

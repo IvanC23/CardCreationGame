@@ -10,6 +10,13 @@ public class Conveyor : MonoBehaviour
     public float verticalOffset = 0.1f;
     public float cardRescaleFactor = 0.8f;
 
+    public DiscardContainer discardContainer;
+    public float discardTransitionDuration = 0.35f;
+    public float exitThreshold = 0.98f;
+    public float verticalOffsetOnDiscard = 0.15f;
+    public float horizontalOffsetOnDiscard = 0.15f;
+
+
     private float headDistance;
     private float splineLength;
 
@@ -38,17 +45,21 @@ public class Conveyor : MonoBehaviour
     {
         headDistance += speed * Time.deltaTime;
 
-        for (int i = 0; i < cards.Count; i++)
+        for (int i = cards.Count - 1; i >= 0; i--)
         {
-            // ✨ Calcola la distanza relativa dal momento in cui la card è stata aggiunta
             float distSinceAdded = headDistance - cardAddTimes[i];
             float dist = distSinceAdded - i * spacing;
 
             if (dist < 0f)
                 continue; // ❗ evita schiacciare tutto all'inizio
 
-            dist = Mathf.Min(dist, splineLength);
+            if (dist >= splineLength * exitThreshold)
+            {
+                EjectCard(i);
+                continue;
+            }
 
+            dist = Mathf.Min(dist, splineLength);
             float t = dist / splineLength;
 
             Vector3 localPos = spline.Spline.EvaluatePosition(t);
@@ -59,6 +70,22 @@ public class Conveyor : MonoBehaviour
 
             cards[i].SetConveyorTransform(worldPos, worldTan);
         }
+    }
+
+    private void EjectCard(int index)
+    {
+        Card card = cards[index];
+        cards.RemoveAt(index);
+        cardAddTimes.RemoveAt(index);
+
+        if (discardContainer == null)
+            return;
+
+        Transform slot = discardContainer.GetNextSlot();
+        if (slot == null)
+            return;
+
+        card.MoveToDiscardSlot(slot.position + Vector3.up * verticalOffsetOnDiscard - Vector3.right * horizontalOffsetOnDiscard, discardTransitionDuration);
     }
 
     public void AddCard(Card card)
