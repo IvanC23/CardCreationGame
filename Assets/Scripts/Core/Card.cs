@@ -4,8 +4,8 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     public Renderer rend;
-
     private Color cardColor;
+    private bool onConveyor = false;
 
     public void Init(Color color)
     {
@@ -92,5 +92,31 @@ public class Card : MonoBehaviour
         }
 
         transform.SetPositionAndRotation(slot.position, targetRot);
+
+        // 🔥 AGGANCIO
+        onConveyor = true;
+
+        Conveyor.Instance.AddCard(this);
+    }
+
+    public void SetDistance(float d)
+    {
+        onConveyor = true;
+    }
+
+    public void SetConveyorTransform(Vector3 pos, Vector3 tangent)
+    {
+        if (!onConveyor) return;
+
+        transform.position = pos + Vector3.up;
+
+        if (tangent.sqrMagnitude < 0.0001f)
+            return;
+
+        Quaternion flowRot = Quaternion.LookRotation(tangent);
+
+        Quaternion baseTilt = Quaternion.Euler(90f, 0f, 0f);
+
+        transform.rotation = flowRot * baseTilt;
     }
 }
