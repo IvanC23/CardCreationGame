@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6238578117064313847}
   - component: {fileID: 8933406494241360894}
   - component: {fileID: 4023289615866816337}
+  - component: {fileID: 9047760782057563736}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5012686171790090929}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.78, y: 0, z: -0.59}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.07, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -113,3 +114,16 @@ MonoBehaviour:
   m_ObjectForwardAxis: 1
   m_ObjectUpAxis: 2
   m_StartOffset: 0
+--- !u!114 &9047760782057563736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5012686171790090929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68efeebfdbb260b46996f67058c3ffc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Card
+  rend: {fileID: 8933406494241360894}
