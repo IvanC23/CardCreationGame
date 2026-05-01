@@ -9,4 +9,22 @@ public class Utils : MonoBehaviour
         Blue,
         Yellow
     }
+
+    public static Colors RandomColor()
+    {
+        var values = System.Enum.GetValues(typeof(Colors));
+        return (Colors)values.GetValue(Random.Range(0, values.Length));
+    }
+
+    public static Color ToColor(Colors color)
+    {
+        return color switch
+        {
+            Colors.Red => Color.red,
+            Colors.Green => Color.green,
+            Colors.Blue => Color.blue,
+            Colors.Yellow => Color.yellow,
+            _ => Color.white
+        };
+    }
 }

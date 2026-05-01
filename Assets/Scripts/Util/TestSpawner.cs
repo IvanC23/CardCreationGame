@@ -21,7 +21,7 @@ public class TestSpawner : MonoBehaviour
     {
         Card c = Instantiate(cardPrefab, spawnPoint.position, spawnPoint.rotation);
 
-        c.Init(Color.blue);
+        c.Init(Utils.RandomColor());
 
         c.MoveToSlot(targetPoint, height, jumpDuration, alignDuration);
     }

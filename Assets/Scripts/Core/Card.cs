@@ -1,15 +1,33 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Card : MonoBehaviour
 {
     public Renderer rend;
+    private Utils.Colors cardType;
     private Color cardColor;
     private bool onConveyor = false;
+    private Rigidbody rb;
 
-    public void Init(Color color)
+    void Awake()
     {
-        cardColor = color;
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+            rb = gameObject.AddComponent<Rigidbody>();
+
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        rb.detectCollisions = true;
+    }
+
+    public Utils.Colors CardType => cardType;
+
+    public void Init(Utils.Colors type)
+    {
+        cardType = type;
+        cardColor = Utils.ToColor(cardType);
+
         ApplyColor();
     }
 
@@ -38,6 +56,39 @@ public class Card : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(DiscardTransition(slotPosition, duration));
+    }
+
+    public void MoveToContainerSlot(Transform slot, float jumpHeight, float duration = 0.35f)
+    {
+        StopAllCoroutines();
+        StartCoroutine(ContainerSlotTransition(slot, jumpHeight, duration));
+    }
+
+    private IEnumerator ContainerSlotTransition(Transform slot, float jumpHeight, float duration)
+    {
+        Vector3 startPos = transform.position;
+        Vector3 apex = Vector3.Lerp(startPos, slot.position - Vector3.forward * 0.075f, 0.5f) + Vector3.up * jumpHeight;
+        Vector3 endPos = slot.position - Vector3.forward * 0.075f;
+
+        float startX = transform.eulerAngles.x;
+        float targetX = 90f;
+
+        float time = 0f;
+        while (time < duration)
+        {
+            float t = time / duration;
+            t = t * t * (3f - 2f * t);
+
+            transform.position = Mathf.Pow(1 - t, 2) * startPos + 2f * (1 - t) * t * apex + t * t * endPos;
+
+            float currentX = Mathf.LerpAngle(startX, targetX, t);
+            transform.rotation = Quaternion.Euler(currentX, 0f, 0f);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.SetPositionAndRotation(endPos, Quaternion.Euler(targetX, 0f, 0f));
     }
 
     private IEnumerator DiscardTransition(Vector3 slotPosition, float duration)
@@ -131,6 +182,11 @@ public class Card : MonoBehaviour
     public void SetDistance(float d)
     {
         onConveyor = true;
+    }
+
+    public void LeaveConveyor()
+    {
+        onConveyor = false;
     }
 
     public void SetConveyorTransform(Vector3 pos, Vector3 tangent)

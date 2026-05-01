@@ -383,8 +383,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.9999998, y: 2.9999998, z: 15.424478}
-  m_Center: {x: 0, y: 1.4999999, z: -19.992802}
+  m_Size: {x: 0.6723857, y: 2.9999998, z: 15.4244795}
+  m_Center: {x: 0.13124385, y: 1.4999999, z: -19.992802}
 --- !u!114 &7334192276920842538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +413,8 @@ MonoBehaviour:
   - {fileID: 1388179097731525599}
   - {fileID: 1109397755299669402}
   - {fileID: 3244777661837706371}
+  slotJumpHeight: 0.4
+  slotMoveDuration: 0.35
 --- !u!1 &5627357868435151556
 GameObject:
   m_ObjectHideFlags: 0

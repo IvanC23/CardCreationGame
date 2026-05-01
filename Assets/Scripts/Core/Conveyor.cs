@@ -88,6 +88,17 @@ public class Conveyor : MonoBehaviour
         card.MoveToDiscardSlot(slot.position + Vector3.up * verticalOffsetOnDiscard - Vector3.right * horizontalOffsetOnDiscard, discardTransitionDuration);
     }
 
+    public bool RemoveCard(Card card)
+    {
+        int index = cards.IndexOf(card);
+        if (index < 0)
+            return false;
+
+        cards.RemoveAt(index);
+        cardAddTimes.RemoveAt(index);
+        return true;
+    }
+
     public void AddCard(Card card)
     {
         cards.Add(card);
