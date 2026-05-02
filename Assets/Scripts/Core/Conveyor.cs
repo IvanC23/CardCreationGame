@@ -91,7 +91,12 @@ public class Conveyor : MonoBehaviour
 
         UpdateCardCountUI();
 
-        discardContainer?.TryPlaceCard(card);
+        if(discardContainer?.TryPlaceCard(card) == false)
+        {
+            speed = 0f;
+            EndGameManager.Instance.EndGame();
+            return;
+        }
     }
 
     public bool RemoveCard(Card card)
