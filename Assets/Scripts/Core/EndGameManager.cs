@@ -11,9 +11,12 @@ public class EndGameManager : MonoBehaviour
     public List<Transform> objectsToScaleToOne;
     public Light primaryLight;
     public Light secondaryLight;
+    public Light tertiaryLight;
 
     public float valueForPrimaryLight = 0.2f;
     public float valueForSecondaryLight = 36f;
+    public float valueForTertiaryLight = 7.5f;
+    public RectTransform endGameUI;
 
 
     public static EndGameManager Instance { get; private set; }
@@ -37,8 +40,10 @@ public class EndGameManager : MonoBehaviour
         inputManager.enabled = false;
         inputManager.handCursor.gameObject.SetActive(false);
 
-        StartCoroutine(EndGameSequence());
         StartCoroutine(ManageLights());
+        StartCoroutine(EndGameSequence());
+        if (endGameUI != null)
+            StartCoroutine(TranslateUI(endGameUI, new Vector3(50, -550f, 0f), 0.3f));
     }
 
     private IEnumerator EndGameSequence()
@@ -55,6 +60,8 @@ public class EndGameManager : MonoBehaviour
         if (secondaryLight != null)
             secondaryLight.intensity = valueForSecondaryLight;
 
+        if (tertiaryLight != null)
+            tertiaryLight.intensity = valueForTertiaryLight;
         yield return null;
     }
 
@@ -82,4 +89,21 @@ public class EndGameManager : MonoBehaviour
             if (obj != null)
                 obj.localScale = targetScale;
     }
+
+    private IEnumerator TranslateUI(RectTransform uiElement, Vector3 targetPosition, float duration)
+    {
+        Vector3 startPosition = uiElement.anchoredPosition;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            float normalized = t / duration;
+            float eased = normalized * normalized * (3f - 2f * normalized);
+            uiElement.anchoredPosition = Vector3.Lerp(startPosition, targetPosition, eased);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        uiElement.anchoredPosition = targetPosition;
+    }   
 }
