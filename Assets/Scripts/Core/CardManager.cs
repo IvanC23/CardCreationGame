@@ -126,7 +126,7 @@ public class CardManager : MonoBehaviour
 
     // Aggiunte al CardManager
 
-    public IEnumerator SendTopGroup(int pileIndex, System.Action onComplete = null)
+    public IEnumerator SendTopGroup(int pileIndex, System.Action onSent = null, System.Action onComplete = null)
     {
 
         if (pileIndex < 0 || pileIndex >= piles.Count)
@@ -153,6 +153,8 @@ public class CardManager : MonoBehaviour
         }
 
         float staggerDelay = 0.08f;
+
+        onSent?.Invoke();
 
         for (int i = 0; i < topGroup.cards.Count; i++)
         {
