@@ -6,6 +6,7 @@ public class CardContainer : MonoBehaviour
     public int maxCards = 6;
     public List<Transform> cardSlots;
     public List<Renderer> renderers;
+    public BoxCollider boxCollider;
     public float slotJumpHeight = 0.4f;
     public float slotMoveDuration = 0.35f;
 

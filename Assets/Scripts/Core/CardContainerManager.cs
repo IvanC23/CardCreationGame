@@ -139,6 +139,7 @@ public class CardContainerManager : MonoBehaviour
         Vector3 startPos = container.transform.position;
         Vector3 originalScale = container.transform.localScale;
         Vector3 bigScale = originalScale * enterScaleMultiplier;
+        container.boxCollider.enabled = false;
 
         // Fase 1: scivolata in avanti
         float t = 0f;
@@ -175,6 +176,7 @@ public class CardContainerManager : MonoBehaviour
         }
 
         container.transform.localScale = originalScale;
+        container.boxCollider.enabled = true;
     }
 
     private void SetContainerAlpha(CardContainer container, float alpha)

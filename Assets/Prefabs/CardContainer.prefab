@@ -413,6 +413,7 @@ MonoBehaviour:
   - {fileID: 1388179097731525599}
   - {fileID: 1109397755299669402}
   - {fileID: 3244777661837706371}
+  boxCollider: {fileID: 2126082997314343857}
   slotJumpHeight: 0.4
   slotMoveDuration: 0.35
 --- !u!1 &5627357868435151556
