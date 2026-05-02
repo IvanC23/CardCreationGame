@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, slotLayer))
         {
             Slot slot = hit.collider.GetComponent<Slot>();
-            if (slot == null || lockedPiles.Contains(slot.pileIndex))
+            if (slot == null || lockedPiles.Count != 0)
                 return;
 
             lockedPiles.Add(slot.pileIndex);

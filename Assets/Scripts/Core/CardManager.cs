@@ -130,15 +130,27 @@ public class CardManager : MonoBehaviour
     {
 
         if (pileIndex < 0 || pileIndex >= piles.Count)
+        {
+            onComplete?.Invoke();
             yield break;
+        }
 
         List<Card> pile = piles[pileIndex];
         List<CardGroup> groups = pileGroups[pileIndex];
 
         if (pile.Count == 0 || groups.Count == 0)
+        {
+            onComplete?.Invoke();
             yield break;
+        }
 
         CardGroup topGroup = groups[0];
+
+        if (!Conveyor.Instance.CanAddCards(topGroup.numberOfCards))
+        {
+            onComplete?.Invoke();
+            yield break;
+        }
 
         float staggerDelay = 0.08f;
 

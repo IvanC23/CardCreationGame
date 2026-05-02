@@ -55,7 +55,7 @@ MonoBehaviour:
   slot4: {fileID: 0}
   slotShiftDuration: 0.3
   minNumberOfCardsPerGroup: 2
-  maxNumberOfCardsPerGroup: 7
+  maxNumberOfCardsPerGroup: 8
   minNumberOfCardsPerPile: 20
   maxNumberOfCardsPerPile: 40
   zOffsetPerCard: 0.1

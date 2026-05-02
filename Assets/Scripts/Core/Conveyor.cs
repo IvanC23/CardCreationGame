@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Splines;
+using UnityEngine.UI;
 
 public class Conveyor : MonoBehaviour
 {
@@ -16,9 +19,12 @@ public class Conveyor : MonoBehaviour
     public float verticalOffsetOnDiscard = 0.15f;
     public float horizontalOffsetOnDiscard = 0.15f;
 
-
     private float headDistance;
     private float splineLength;
+
+    public int MaxCardsOnConveyor = 20;
+    public TMP_Text cardCountText;
+    public Slider cardCountSlider;
 
     private List<Card> cards = new List<Card>();
     private List<float> cardAddTimes = new List<float>();
@@ -39,6 +45,8 @@ public class Conveyor : MonoBehaviour
     void Start()
     {
         splineLength = Mathf.Max(0.0001f, spline.CalculateLength());
+
+        UpdateCardCountUI();
     }
 
     void Update()
@@ -78,6 +86,8 @@ public class Conveyor : MonoBehaviour
         cards.RemoveAt(index);
         cardAddTimes.RemoveAt(index);
 
+        UpdateCardCountUI();
+
         discardContainer?.TryPlaceCard(card);
     }
 
@@ -89,6 +99,7 @@ public class Conveyor : MonoBehaviour
 
         cards.RemoveAt(index);
         cardAddTimes.RemoveAt(index);
+        UpdateCardCountUI();
         return true;
     }
 
@@ -100,5 +111,21 @@ public class Conveyor : MonoBehaviour
         card.transform.localScale *= cardRescaleFactor;
 
         card.SetDistance(0f);
+        UpdateCardCountUI();
+    }
+
+    private void UpdateCardCountUI()
+    {
+        if (cardCountText != null)
+            cardCountText.text = $"{cards.Count} / {MaxCardsOnConveyor}";
+
+        if (cardCountSlider != null)
+            cardCountSlider.value = (float)cards.Count / MaxCardsOnConveyor;
+
+    }
+
+    internal bool CanAddCards(int count)
+    {
+        return cards.Count + count <= MaxCardsOnConveyor;
     }
 }
