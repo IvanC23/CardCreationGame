@@ -10,6 +10,9 @@ public class Card : MonoBehaviour
     private bool onConveyor = false;
     private Rigidbody rb;
 
+    public event System.Action<Card> OnContainerSlotReached;
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -164,6 +167,8 @@ public class Card : MonoBehaviour
         }
 
         transform.SetPositionAndRotation(endPos, Quaternion.Euler(preserveX, 0f, 0f));
+
+        OnContainerSlotReached?.Invoke(this);
     }
 
     private IEnumerator ContainerSlotTransition(Transform slot, float jumpHeight, float duration)

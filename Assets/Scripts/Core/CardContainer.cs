@@ -12,6 +12,17 @@ public class CardContainer : MonoBehaviour
     private Utils.Colors containerColor;
     private int nextSlotIndex = 0;
 
+    public event System.Action<CardContainer> OnContainerFull;
+
+    private List<Card> hostedCards = new List<Card>();
+
+    // Chiamato da CardContainerManager durante l'animazione di uscita
+    public List<Card> GetHostedCards() => hostedCards;
+
+    private int cardsAnimatingCount = 0;
+    private bool isFull = false;
+
+
     void Awake()
     {
         containerColor = Utils.RandomColor();
@@ -23,6 +34,7 @@ public class CardContainer : MonoBehaviour
             color = containerC
         });
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,8 +53,24 @@ public class CardContainer : MonoBehaviour
             return;
 
         card.LeaveConveyor();
+        hostedCards.Add(card);
+        cardsAnimatingCount++;
+        card.OnContainerSlotReached += OnCardAnimationComplete;
+
         Conveyor.Instance?.RemoveCard(card);
         card.MoveToContainerSlot(slot, slotJumpHeight, slotMoveDuration);
+
+        if (nextSlotIndex >= Mathf.Min(maxCards, cardSlots.Count))
+            isFull = true;
+    }
+
+    private void OnCardAnimationComplete(Card card)
+    {
+        card.OnContainerSlotReached -= OnCardAnimationComplete;
+        cardsAnimatingCount--;
+
+        if (isFull && cardsAnimatingCount == 0)
+            OnContainerFull?.Invoke(this);
     }
 
     public Transform GetNextSlot()
