@@ -176,6 +176,8 @@ public class CardContainerManager : MonoBehaviour
         }
 
         container.transform.localScale = originalScale;
+
+        yield return new WaitForSecondsRealtime(0.5f);
         container.boxCollider.enabled = true;
     }
 
