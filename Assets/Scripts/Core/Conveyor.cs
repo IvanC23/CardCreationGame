@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -30,6 +31,8 @@ public class Conveyor : MonoBehaviour
     private List<float> cardAddTimes = new List<float>();
 
     public static Conveyor Instance { get; private set; }
+
+    private bool isFlashingWarning = false;
 
     void Awake()
     {
@@ -126,6 +129,56 @@ public class Conveyor : MonoBehaviour
 
     internal bool CanAddCards(int count)
     {
+        if (cards.Count + count > MaxCardsOnConveyor)
+            FlashFullWarning();
         return cards.Count + count <= MaxCardsOnConveyor;
+    }
+
+    public void FlashFullWarning()
+    {
+        if (isFlashingWarning) return;
+        isFlashingWarning = true;
+        StartCoroutine(nameof(PulseText));
+    }
+
+    private IEnumerator PulseText()
+    {
+        if (cardCountText == null) yield break;
+
+        int pulses = 1;
+        float pulseDuration = 0.25f;
+        Vector3 originalScale = cardCountText.transform.localScale;
+        Color originalColor = cardCountText.color;
+        Color warningColor = Color.red;
+        float scaleMultiplier = 1.25f;
+
+        for (int i = 0; i < pulses; i++)
+        {
+            // Espandi e colora di rosso
+            float t = 0f;
+            while (t < pulseDuration)
+            {
+                float normalized = t / pulseDuration;
+                cardCountText.transform.localScale = Vector3.Lerp(originalScale, originalScale * scaleMultiplier, normalized);
+                cardCountText.color = Color.Lerp(originalColor, warningColor, normalized);
+                t += Time.deltaTime;
+                yield return null;
+            }
+
+            // Ritorna alla normalità
+            t = 0f;
+            while (t < pulseDuration)
+            {
+                float normalized = t / pulseDuration;
+                cardCountText.transform.localScale = Vector3.Lerp(originalScale * scaleMultiplier, originalScale, normalized);
+                cardCountText.color = Color.Lerp(warningColor, originalColor, normalized);
+                t += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        cardCountText.transform.localScale = originalScale;
+        cardCountText.color = originalColor;
+        isFlashingWarning = false;
     }
 }

@@ -174,7 +174,7 @@ public class CardManager : MonoBehaviour
         // Riposiziona le carte rimaste
         RepositionPile(pileIndex);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
         onComplete?.Invoke();
     }
