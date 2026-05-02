@@ -58,17 +58,18 @@ public class Card : MonoBehaviour
         StartCoroutine(DiscardTransition(slotPosition, duration));
     }
 
-    public void ShiftToSlot(Vector3 targetPosition, float duration = 0.3f, float verticalOffset = 0f, float horizontalOffset = 0f)
+    public void ShiftToSlot(Vector3 targetPosition, float duration = 0.3f, float verticalOffset = 0f, float horizontalOffset = 0f, bool jump = false)
     {
         StopAllCoroutines();
-        StartCoroutine(SlotShiftTransition(targetPosition, duration, verticalOffset, horizontalOffset));
+        StartCoroutine(SlotShiftTransition(targetPosition, duration, verticalOffset, horizontalOffset, jump));
     }
 
-    private IEnumerator SlotShiftTransition(Vector3 targetPosition, float duration, float verticalOffset, float horizontalOffset)
+    private IEnumerator SlotShiftTransition(Vector3 targetPosition, float duration, float verticalOffset, float horizontalOffset, bool jump)
     {
         Vector3 startPos = transform.position;
         Quaternion preservedRot = transform.rotation;
-        float jumpHeight = 0.3f;
+
+        float jumpHeight = jump ? 0.3f : 0f;
 
         // Applica gli offset alla posizione target
         Vector3 adjustedTarget = targetPosition;

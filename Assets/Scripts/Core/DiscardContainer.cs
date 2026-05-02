@@ -105,7 +105,7 @@ public class DiscardContainer : MonoBehaviour
                 lastSlotByColor[card.CardType] = nextSlot;
             }
 
-            card.ShiftToSlot(discardSlots[nextSlot].position, slotShiftDuration, verticalOffsetOnDiscard, horizontalOffsetOnDiscard);
+            card.ShiftToSlot(discardSlots[nextSlot].position, slotShiftDuration, verticalOffsetOnDiscard, horizontalOffsetOnDiscard, jump: true);
         }
     }
 
