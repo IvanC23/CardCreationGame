@@ -58,6 +58,42 @@ public class Card : MonoBehaviour
         StartCoroutine(DiscardTransition(slotPosition, duration));
     }
 
+    public void ShiftToSlot(Vector3 targetPosition, float duration = 0.3f, float verticalOffset = 0f, float horizontalOffset = 0f)
+    {
+        StopAllCoroutines();
+        StartCoroutine(SlotShiftTransition(targetPosition, duration, verticalOffset, horizontalOffset));
+    }
+
+    private IEnumerator SlotShiftTransition(Vector3 targetPosition, float duration, float verticalOffset, float horizontalOffset)
+    {
+        Vector3 startPos = transform.position;
+        Quaternion preservedRot = transform.rotation;
+        float jumpHeight = 0.3f;
+
+        // Applica gli offset alla posizione target
+        Vector3 adjustedTarget = targetPosition;
+        adjustedTarget.y += verticalOffset;
+        adjustedTarget.x -= horizontalOffset;
+
+        float time = 0f;
+        while (time < duration)
+        {
+            float t = time / duration;
+            t = t * t * (3f - 2f * t);
+
+            Vector3 pos = Vector3.Lerp(startPos, adjustedTarget, t);
+            pos.y += Mathf.Sin(t * Mathf.PI) * jumpHeight;
+
+            transform.position = pos;
+            transform.rotation = preservedRot;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.SetPositionAndRotation(adjustedTarget, preservedRot);
+    }
+
     public void MoveToContainerSlot(Transform slot, float jumpHeight, float duration = 0.35f)
     {
         StopAllCoroutines();

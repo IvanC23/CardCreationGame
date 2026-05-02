@@ -27,4 +27,15 @@ public class Utils : MonoBehaviour
             _ => Color.white
         };
     }
+
+    public static Colors RandomColorExcluding(Colors exclude)
+    {
+        var values = System.Enum.GetValues(typeof(Colors));
+        Colors result;
+        do
+        {
+            result = (Colors)values.GetValue(Random.Range(0, values.Length));
+        } while (result == exclude);
+        return result;
+    }
 }

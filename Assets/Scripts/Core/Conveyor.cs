@@ -78,14 +78,7 @@ public class Conveyor : MonoBehaviour
         cards.RemoveAt(index);
         cardAddTimes.RemoveAt(index);
 
-        if (discardContainer == null)
-            return;
-
-        Transform slot = discardContainer.GetNextSlot();
-        if (slot == null)
-            return;
-
-        card.MoveToDiscardSlot(slot.position + Vector3.up * verticalOffsetOnDiscard - Vector3.right * horizontalOffsetOnDiscard, discardTransitionDuration);
+        discardContainer?.TryPlaceCard(card);
     }
 
     public bool RemoveCard(Card card)
