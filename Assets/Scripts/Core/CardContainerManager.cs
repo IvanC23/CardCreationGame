@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CardContainerManager : MonoBehaviour
@@ -6,9 +7,7 @@ public class CardContainerManager : MonoBehaviour
     public static CardContainerManager Instance { get; private set; }
 
     public GameObject containerPrefab;
-
-    public Transform leftContainerSlot;
-    public Transform rightContainerSlot;
+    public List<Transform> containerSlots;
 
     [Header("Exit Animation")]
     public float exitRiseHeight = 0.5f;
@@ -21,8 +20,7 @@ public class CardContainerManager : MonoBehaviour
     public float enterScaleMultiplier = 1.2f;
     public float enterScaleDuration = 0.5f;
 
-    private CardContainer leftContainer;
-    private CardContainer rightContainer;
+    private List<CardContainer> containers = new List<CardContainer>();
 
     void Awake()
     {
@@ -36,8 +34,11 @@ public class CardContainerManager : MonoBehaviour
 
     void Start()
     {
-        leftContainer = SpawnContainer(leftContainerSlot, animate: false);
-        rightContainer = SpawnContainer(rightContainerSlot, animate: false);
+        foreach (Transform slot in containerSlots)
+        {
+            CardContainer container = SpawnContainer(slot, animate: false);
+            containers.Add(container);
+        }
     }
 
     private CardContainer SpawnContainer(Transform slot, bool animate = true)
@@ -61,15 +62,16 @@ public class CardContainerManager : MonoBehaviour
     {
         container.OnContainerFull -= OnContainerFull;
 
-        bool isLeft = container == leftContainer;
-        Transform slot = isLeft ? leftContainerSlot : rightContainerSlot;
+        int index = containers.IndexOf(container);
+        if (index < 0) return;
 
-        StartCoroutine(ReplaceContainer(container, slot, isLeft));
+        Transform slot = containerSlots[index];
+        StartCoroutine(ReplaceContainer(container, slot, index));
     }
 
-    private IEnumerator ReplaceContainer(CardContainer container, Transform slot, bool isLeft)
+    private IEnumerator ReplaceContainer(CardContainer container, Transform slot, int index)
     {
-        yield return StartCoroutine(ExitAnimation(container, slot, isLeft));
+        yield return StartCoroutine(ExitAnimation(container, slot, index));
 
         foreach (var card in container.GetHostedCards())
             if (card != null)
@@ -78,7 +80,7 @@ public class CardContainerManager : MonoBehaviour
         Destroy(container.gameObject);
     }
 
-    private IEnumerator ExitAnimation(CardContainer container, Transform slot, bool isLeft)
+    private IEnumerator ExitAnimation(CardContainer container, Transform slot, int index)
     {
         Vector3 startPos = container.transform.position;
         Vector3 endPos = startPos + Vector3.up * exitRiseHeight;
@@ -86,8 +88,8 @@ public class CardContainerManager : MonoBehaviour
         Vector3 endScale = startScale * exitScaleMultiplier;
 
         var cards = container.GetHostedCards();
-        var cardOffsets = new System.Collections.Generic.List<Vector3>();
-        var cardOriginalScales = new System.Collections.Generic.List<Vector3>();
+        var cardOffsets = new List<Vector3>();
+        var cardOriginalScales = new List<Vector3>();
         foreach (var card in cards)
         {
             cardOffsets.Add(card != null ? card.transform.position - startPos : Vector3.zero);
@@ -118,8 +120,7 @@ public class CardContainerManager : MonoBehaviour
             {
                 spawnedNew = true;
                 CardContainer newContainer = SpawnContainer(slot, animate: true);
-                if (isLeft) leftContainer = newContainer;
-                else rightContainer = newContainer;
+                containers[index] = newContainer;
             }
 
             if (normalized > 0.7f)
@@ -143,7 +144,6 @@ public class CardContainerManager : MonoBehaviour
         Vector3 bigScale = originalScale * enterScaleMultiplier;
         container.boxCollider.enabled = false;
 
-        // Fase 1: scivolata in avanti
         float t = 0f;
         while (t < enterSlideDuration)
         {
@@ -155,7 +155,6 @@ public class CardContainerManager : MonoBehaviour
         }
         container.transform.position = targetPosition;
 
-        // Fase 2: scala su
         t = 0f;
         while (t < enterScaleDuration)
         {
@@ -166,7 +165,6 @@ public class CardContainerManager : MonoBehaviour
             yield return null;
         }
 
-        // Fase 3: scala giù
         t = 0f;
         while (t < enterScaleDuration)
         {
