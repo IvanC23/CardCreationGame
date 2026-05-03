@@ -44,8 +44,8 @@ public class CardContainerManager : MonoBehaviour
     private CardContainer SpawnContainer(Transform slot, bool animate = true)
     {
         Vector3 spawnPosition = animate
-            ? slot.position + Vector3.forward * enterZOffset
-            : slot.position;
+    ? slot.position + slot.rotation * Vector3.forward * enterZOffset
+    : slot.position;
 
         GameObject go = Instantiate(containerPrefab, spawnPosition, slot.rotation);
         CardContainer container = go.GetComponent<CardContainer>();

@@ -21,11 +21,15 @@ public class PromoManager : MonoBehaviour
 
     private IEnumerator PlayPromoSequence()
     {
-        Vector3 startScale = promoUI.localScale; // scala iniziale (0,0,0)
-        Vector3 bigScale = startScale + Vector3.one * targetScaleMultiplier; // (1.2, 1.2, 1.2)
-        Vector3 finalScale = Vector3.one * finalScaleTargetMultiplier;       // (1.0, 1.0, 1.0)
+        Vector3 startScale = promoUI.localScale;
+        Vector3 bigScale = startScale + Vector3.one * targetScaleMultiplier;
+        Vector3 finalScale = Vector3.one * finalScaleTargetMultiplier;
 
-        yield return StartCoroutine(ScaleUI(promoUI, startScale, bigScale, scaleDuration));
+        yield return StartCoroutine(ScaleUI(promoUI, startScale, bigScale, scaleDuration * 0.5f));
+
+        AudioManager.Instance.PlaySFX(SceneManager.GetActiveScene().buildIndex);
+
+        yield return StartCoroutine(ScaleUI(promoUI, promoUI.localScale, bigScale, scaleDuration * 0.5f));
         yield return StartCoroutine(ScaleUI(promoUI, bigScale, finalScale, finalScaleDuration));
 
         if (nextSceneIndex == 0)

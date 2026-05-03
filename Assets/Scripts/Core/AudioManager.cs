@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource containerFullSource;
     public AudioSource levelEndSource;
     public AudioSource bgMusicSource;
+    public AudioSource sfxSource;
 
 
     [Header("Clips")]
@@ -18,6 +19,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip containerFullClip;
     public AudioClip levelEndClip;
     public AudioClip bgMusicClip;
+    public AudioClip[] sfxClips;
 
 
     void Awake()
@@ -56,5 +58,13 @@ public class AudioManager : MonoBehaviour
     public void PlayLevelEnd()
     {
         levelEndSource.PlayOneShot(levelEndClip);
+    }
+
+    public void PlaySFX(int index = -1)
+    {
+        if (index >= 0 && index < sfxClips.Length)
+        {
+            sfxSource.PlayOneShot(sfxClips[index]);
+        }
     }
 }
