@@ -9,12 +9,16 @@ public class AudioManager : MonoBehaviour
     public AudioSource wrongClickSource;
     public AudioSource containerFullSource;
     public AudioSource levelEndSource;
+    public AudioSource bgMusicSource;
+
 
     [Header("Clips")]
     public AudioClip cardJumpClip;
     public AudioClip wrongClickClip;
     public AudioClip containerFullClip;
     public AudioClip levelEndClip;
+    public AudioClip bgMusicClip;
+
 
     void Awake()
     {
@@ -24,6 +28,14 @@ public class AudioManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        if (bgMusicSource != null && bgMusicClip != null)
+        {
+            bgMusicSource.clip = bgMusicClip;
+            bgMusicSource.loop = true;
+            bgMusicSource.Play();
+        }
     }
 
     public void PlayCardJump()
