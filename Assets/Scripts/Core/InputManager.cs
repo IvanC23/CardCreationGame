@@ -35,7 +35,11 @@ public class InputManager : MonoBehaviour
             Slot slot = hit.collider.GetComponent<Slot>();
 
             if (slot == null || lockedPiles.Count != 0)
+            {
+                AudioManager.Instance.PlayWrongClick();
                 return;
+            }
+
 
             lockedPiles.Add(slot.pileIndex);
             StartCoroutine(CardManager.Instance.SendTopGroup(

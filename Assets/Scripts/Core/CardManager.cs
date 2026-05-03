@@ -132,6 +132,7 @@ public class CardManager : MonoBehaviour
         if (pileIndex < 0 || pileIndex >= piles.Count)
         {
             onComplete?.Invoke();
+            AudioManager.Instance.PlayWrongClick();
             yield break;
         }
 
@@ -141,6 +142,7 @@ public class CardManager : MonoBehaviour
         if (pile.Count == 0 || groups.Count == 0)
         {
             onComplete?.Invoke();
+            AudioManager.Instance.PlayWrongClick();
             yield break;
         }
 
@@ -149,6 +151,7 @@ public class CardManager : MonoBehaviour
         if (!Conveyor.Instance.CanAddCards(topGroup.numberOfCards))
         {
             onComplete?.Invoke();
+            AudioManager.Instance.PlayWrongClick();
             yield break;
         }
 
@@ -160,6 +163,8 @@ public class CardManager : MonoBehaviour
         {
             Card card = topGroup.cards[i];
             card.MoveToSlot(targetPoint, height, jumpDuration, alignDuration);
+
+            AudioManager.Instance.PlayCardJump();
 
             if (i < topGroup.cards.Count - 1)
                 yield return new WaitForSeconds(staggerDelay);

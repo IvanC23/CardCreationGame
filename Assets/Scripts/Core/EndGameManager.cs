@@ -37,6 +37,8 @@ public class EndGameManager : MonoBehaviour
         foreach (var anim in animatedObjects)
             anim.enabled = false;
 
+        AudioManager.Instance.PlayLevelEnd();
+
         inputManager.enabled = false;
         inputManager.handCursor.gameObject.SetActive(false);
 

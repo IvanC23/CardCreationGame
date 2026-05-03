@@ -96,6 +96,8 @@ public class CardContainerManager : MonoBehaviour
 
         bool spawnedNew = false;
 
+        AudioManager.Instance.PlayContainerFull();
+
         float t = 0f;
         while (t < exitDuration)
         {
