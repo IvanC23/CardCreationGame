@@ -1604,7 +1604,8 @@ PrefabInstance:
       value: -6.07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5255066477392270616, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
@@ -3455,11 +3456,13 @@ MonoBehaviour:
   containerFullSource: {fileID: 1258829311}
   levelEndSource: {fileID: 839217467}
   bgMusicSource: {fileID: 0}
+  sfxSource: {fileID: 0}
   cardJumpClip: {fileID: 8300000, guid: 1fae626f89ea1e04aaa6b43c219b68c7, type: 3}
   wrongClickClip: {fileID: 8300000, guid: 850eb25c4d0c5e545a68f95013b710fd, type: 3}
   containerFullClip: {fileID: 8300000, guid: 65dddf9cf9997e148970efdd7950706b, type: 3}
   levelEndClip: {fileID: 8300000, guid: 20232fe81206fc9428fed028f2a49506, type: 3}
   bgMusicClip: {fileID: 0}
+  sfxClips: []
 --- !u!1 &698390707
 GameObject:
   m_ObjectHideFlags: 0
@@ -6888,7 +6891,8 @@ PrefabInstance:
       value: -6.07
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5255066477392270616, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
@@ -7460,7 +7464,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5255066477392270616, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
@@ -8173,7 +8178,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5255066477392270616, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
@@ -8513,6 +8519,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
+--- !u!198 &2140326259 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3179370618163075957, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
+  m_PrefabInstance: {fileID: 2140326258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &84061764229299343
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8787,7 +8798,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5255066477392270616, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf2d019f3d7ede24a8dbaf46085bee57, type: 3}
@@ -8899,6 +8911,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Conveyor & Spline
       objectReference: {fileID: 0}
+    - target: {fileID: 6517861793049819605, guid: 1f142b07488381344b5fc5db0375e571, type: 3}
+      propertyPath: smokeEffect
+      value: 
+      objectReference: {fileID: 2140326259}
     - target: {fileID: 6517861793049819605, guid: 1f142b07488381344b5fc5db0375e571, type: 3}
       propertyPath: cardCountText
       value: 

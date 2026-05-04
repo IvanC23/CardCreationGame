@@ -27,6 +27,10 @@ public class Conveyor : MonoBehaviour
     public TMP_Text cardCountText;
     public Slider cardCountSlider;
 
+    public ParticleSystem smokeEffect;
+    public float smokeEffectTimer = 0f;
+    public float smokeEffectDuration = 2.0f;
+
     private List<Card> cards = new List<Card>();
     private List<float> cardAddTimes = new List<float>();
 
@@ -91,7 +95,7 @@ public class Conveyor : MonoBehaviour
 
         UpdateCardCountUI();
 
-        if(discardContainer?.TryPlaceCard(card) == false)
+        if (discardContainer?.TryPlaceCard(card) == false)
         {
             speed = 0f;
             EndGameManager.Instance.EndGame();
@@ -120,6 +124,29 @@ public class Conveyor : MonoBehaviour
 
         card.SetDistance(0f);
         UpdateCardCountUI();
+    }
+
+    public void PlaySmoke()
+    {
+        smokeEffectTimer = smokeEffectDuration;
+
+        if (smokeEffect != null && !smokeEffect.isPlaying)
+        {
+            StartCoroutine(PlaySmokeEffect());
+        }
+    }
+
+    private IEnumerator PlaySmokeEffect()
+    {
+        smokeEffect.Play();
+
+        while (smokeEffectTimer > 0f)
+        {
+            smokeEffectTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        smokeEffect.Stop();
     }
 
     private void UpdateCardCountUI()

@@ -159,6 +159,8 @@ public class CardManager : MonoBehaviour
 
         onSent?.Invoke();
 
+        Conveyor.Instance.PlaySmoke();
+
         for (int i = 0; i < topGroup.cards.Count; i++)
         {
             Card card = topGroup.cards[i];
