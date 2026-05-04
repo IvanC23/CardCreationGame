@@ -39,6 +39,7 @@ public class PromoManager : MonoBehaviour
 */
         if (nextSceneIndex == 0)
         {
+            yield return new WaitForSeconds(timerBeforeNextSceneLoad);
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
