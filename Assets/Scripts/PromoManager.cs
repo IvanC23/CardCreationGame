@@ -21,7 +21,7 @@ public class PromoManager : MonoBehaviour
 
     private IEnumerator PlayPromoSequence()
     {
-        Vector3 startScale = promoUI.localScale;
+        /*Vector3 startScale = promoUI.localScale;
         Vector3 bigScale = startScale + Vector3.one * targetScaleMultiplier;
         Vector3 finalScale = Vector3.one * finalScaleTargetMultiplier;
 
@@ -32,8 +32,19 @@ public class PromoManager : MonoBehaviour
         yield return StartCoroutine(ScaleUI(promoUI, promoUI.localScale, bigScale, scaleDuration * 0.5f));
         yield return StartCoroutine(ScaleUI(promoUI, bigScale, finalScale, finalScaleDuration));
 
+         AudioManager.Instance.PlaySFX(SceneManager.GetActiveScene().buildIndex);
+
+         if (promoUI != null)
+             StartCoroutine(ScaleUI(promoUI, promoUI.localScale, Vector3.one * finalScaleTargetMultiplier, finalScaleDuration));
+*/
         if (nextSceneIndex == 0)
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
             yield break;
+        }
+
 
         yield return new WaitForSeconds(timerBeforeNextSceneLoad);
         SceneManager.LoadScene(nextSceneIndex);

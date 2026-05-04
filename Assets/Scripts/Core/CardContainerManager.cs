@@ -22,6 +22,8 @@ public class CardContainerManager : MonoBehaviour
 
     private List<CardContainer> containers = new List<CardContainer>();
 
+    public MinionManager minionManager;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -66,6 +68,9 @@ public class CardContainerManager : MonoBehaviour
         if (index < 0) return;
 
         Transform slot = containerSlots[index];
+
+        minionManager.JumpMinions();
+
         StartCoroutine(ReplaceContainer(container, slot, index));
     }
 

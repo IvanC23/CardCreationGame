@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource levelEndSource;
     public AudioSource bgMusicSource;
     public AudioSource sfxSource;
+    public AudioSource minionJumpSource;
 
 
     [Header("Clips")]
@@ -20,6 +21,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip levelEndClip;
     public AudioClip bgMusicClip;
     public AudioClip[] sfxClips;
+    public AudioClip minionJumpClip;
 
 
     void Awake()
@@ -66,5 +68,10 @@ public class AudioManager : MonoBehaviour
         {
             sfxSource.PlayOneShot(sfxClips[index]);
         }
+    }
+
+    public void PlayMinionJump()
+    {
+        minionJumpSource.PlayOneShot(minionJumpClip);
     }
 }
