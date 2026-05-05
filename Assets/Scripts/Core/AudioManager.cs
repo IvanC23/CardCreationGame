@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -34,10 +35,18 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        StartCoroutine(InitializeAudio());
+    }
+
+    IEnumerator InitializeAudio()
+    {
         if (bgMusicSource != null && bgMusicClip != null)
         {
             bgMusicSource.clip = bgMusicClip;
             bgMusicSource.loop = true;
+
+            yield return new WaitForSeconds(0.3f); // dai tempo al recorder di inizializzare
+
             bgMusicSource.Play();
         }
     }
